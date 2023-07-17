@@ -9,6 +9,10 @@ env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT }}
   VERSION: ${GITHUB_REF_NAME#v}
 
+concurrency:
+  group: production_environment
+  cancel-in-progress: true
+
 jobs:
   prod:
     runs-on: ubuntu-latest
@@ -29,17 +33,17 @@ jobs:
           UNKOWN_SECRET: ${{ secrets.UNKNOWN_SECRET }}
         run: echo "${{ env.GCP_PROJECT }} ;; ${{ env.GCP_CREDENTIALS }} ;; ${{ env.UNKOWN_SECRET }}"
 
-  staging:
-    runs-on: ubuntu-latest
-    environment:
-      name: staging
-      url: ${{ vars.APP_URL }}
-    steps:
-      - name: Display the tag
-        run: echo "${{ github.ref_name }} ;; ${{ env.VERSION }} "
+  # staging:
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: staging
+  #     url: ${{ vars.APP_URL }}
+  #   steps:
+  #     - name: Display the tag
+  #       run: echo "${{ github.ref_name }} ;; ${{ env.VERSION }} "
 
-      - name: Display variables
-        run: echo "${{ env.PROJECT_ID }} ;; ${{ vars.APP_URL }}"
+  #     - name: Display variables
+  #       run: echo "${{ env.PROJECT_ID }} ;; ${{ vars.APP_URL }}"
 
-      - name: Display secrets
-        run: echo "${{ secrets.GCP_PROJECT }} ;; ${{ secrets.GCP_CREDENTIALS }} ;; ${{ secrets.UNKNOWN_SECRET }}"
+  #     - name: Display secrets
+  #       run: echo "${{ secrets.GCP_PROJECT }} ;; ${{ secrets.GCP_CREDENTIALS }} ;; ${{ secrets.UNKNOWN_SECRET }}"

@@ -17,7 +17,7 @@ jobs:
       url: ${{ vars.APP_URL }}
     steps:
       - name: Display the tag
-        run: echo "${{ github.ref_name }} ;; ${{ env.VERSION }} "
+        run: echo "${{ github.ref_name }} ;; ${{ env.VERSION }}"
 
       - name: Display variables
         run: echo "${{ env.PROJECT_ID }} ;; ${{ vars.APP_URL }}"
@@ -26,7 +26,8 @@ jobs:
         env:
           GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
           GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
-        run: echo "${{ env.GCP_PROJECT }} ;; ${{ env.GCP_CREDENTIALS }}"
+          UNKOWN_SECRET: ${{ secrets.UNKNOWN_SECRET }}
+        run: echo "${{ env.GCP_PROJECT }} ;; ${{ env.GCP_CREDENTIALS }} ;; ${{ env.UNKOWN_SECRET }}"
 
   staging:
     runs-on: ubuntu-latest
@@ -41,7 +42,4 @@ jobs:
         run: echo "${{ env.PROJECT_ID }} ;; ${{ vars.APP_URL }}"
 
       - name: Display secrets
-        env:
-          GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
-          GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
-        run: echo "${{ env.GCP_PROJECT }} ;; ${{ env.GCP_CREDENTIALS }}"
+        run: echo "${{ secrets.GCP_PROJECT }} ;; ${{ secrets.GCP_CREDENTIALS }} ;; ${{ secrets.UNKNOWN_SECRET }}"

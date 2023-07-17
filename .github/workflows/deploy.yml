@@ -3,13 +3,10 @@ name: Testing environments
 on:
   push:
     tags:
-      # - '^v[0-9]+\.[0-9]+\.[0-9]+'
-      - '*'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT }}
-  REPOSITORY: my-app
-  REGION: europe-west9
 
 jobs:
   prod:
@@ -19,7 +16,7 @@ jobs:
       url: ${{ vars.APP_URL }}
     steps:
       - name: Display the tag
-        run: echo ${{ github.ref }}
+        run: echo ${{ github.ref_name:1 }}
       
       - name: Display variables
         run: echo "${{ env.PROJECT_ID }} ;; ${{ vars.APP_URL }}"
@@ -34,7 +31,7 @@ jobs:
       url: ${{ vars.APP_URL }}
     steps:
       - name: Display the tag
-        run: echo ${{ github.ref }}
+        run: echo ${{ github.ref_name:1 }}
       
       - name: Display variables
         run: echo "${{ env.PROJECT_ID }} ;; ${{ vars.APP_URL }}"
